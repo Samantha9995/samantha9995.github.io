@@ -2,6 +2,7 @@
 
 ## Overview
 This is a personal portfolio website showcasing my projects, skills, and contact information. The site is designed to provide a clean and responsive interface to highlight my work as a developer and creative professional.
+This project is deployed on GitHub Pages and can be accessed at (https://samantha9995.github.io/).
 
 ## Features
 - **Home**: A welcoming introduction with a hero section.
