@@ -1,4 +1,4 @@
-# Samantha's Portfolio Website
+# My Portfolio Website
 
 ## Overview
 This is a personal portfolio website showcasing my projects, skills, and contact information. The site is designed to provide a clean and responsive interface to highlight my work as a developer and creative professional.
@@ -37,7 +37,7 @@ The site is deployed using GitHub Pages. To deploy updates:
 ## Contact
 Feel free to reach out for collaboration or inquiries:
 - GitHub: [samantha9995](https://github.com/samantha9995)
-- LinkedIn: (https://www.linkedin.com/in/samantha-a-948287176/)
+- LinkedIn(https://www.linkedin.com/in/samantha-a-948287176/)
 
 ## License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
