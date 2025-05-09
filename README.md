@@ -1,6 +1,4 @@
-# My First Flutter App
-
-# Listen First (9/5/2025)
+# Listen First
 
 A Flutter application that allows users to search for music on the iTunes Store and play previews.
 
