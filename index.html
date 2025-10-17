@@ -1,244 +1,599 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SA Dev</title>
+    <title>SA Dev - Android & Flutter Developer</title>
     <style>
-        main {
-            width: 800px; 
-            margin: 0 auto; 
-            padding: 20px;
-            background-color: #ffffff; 
-        }
-        body {
-            text-align: center;
-            font-family: Arial, sans-serif;
+        * {
             margin: 0;
             padding: 0;
-            background-color: #f0f0f0; 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: center; 
-            align-items: center; 
-            min-height: 100vh; 
+            box-sizing: border-box;
         }
 
-        .bio-container {
-            background-color: #fff;
-            padding: 40px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            overflow-x: hidden;
+            background: #fafafa;
         }
 
-        h1 {
-            color: #194e94; 
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
-        ul {
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #194e94;
+        }
+
+        nav ul {
+            display: flex;
             list-style: none;
-            padding: 0;
+            gap: 2rem;
         }
 
-        ul li {
-            margin-bottom: 5px;
-        }
-
-        a {
-            color: #3ddc84;
+        nav a {
             text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
         }
 
-        a:hover {
-            text-decoration: underline;
+        nav a:hover {
+            color: #0d47a1;
         }
 
-        .project-highlight {
-            margin-top: 20px;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background-color: #fafafa;
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(135deg, #194e94 0%, #3ddc84 100%);
+            color: white;
+            position: relative;
         }
 
-        .project-highlight img {
-            max-width: 100%;
-            height: auto;
-            margin-bottom: 10px;
+        .hero-content h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .hero-content .subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: #194e94;
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        section {
+            padding: 100px 0;
+        }
+
+        .about {
+            background: white;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-text h2 {
+            font-size: 2.5rem;
+            color: #0d47a1;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-text p {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .tech-tag {
+            background: #e3f2fd;
+            color: #0d47a1;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin: 0.25rem;
+            display: inline-block;
+        }
+
+
+        .project-links {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .project-link.play-store {
+            background: #00C853;
+            color: white;
+        }
+
+        .project-link.play-store:hover {
+            background: #00b140;
+            transform: translateY(-1px);
+        }
+
+        .project-link.github {
+            background: #333;
+            color: white;
+        }
+
+        .project-link.github:hover {
+            background: #24292e;
+            transform: translateY(-1px);
+        }
+
+        .project-link.demo {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .project-link.demo:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        .project-link.website {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            border: 1px solid rgba(76, 175, 80, 0.2);
+        }
+
+        .project-link.website:hover {
+            background: linear-gradient(135deg, #45a049 0%, #3d8b40 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+        }
+
+        .projects {
+            background: #f5f5f5;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+        }
+
+        .project-image {
+            width: 50%; /* Or a fixed width, e.g., 400px */
+            max-width: 400px; /* Ensures it doesn't exceed 400px */
+            margin: 0 auto; /* Centers the container horizontally */
+            padding-top: 40px;
+        }
+
+        .project-content {
+            padding: 1.5rem;
+        }
+
+        .project-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: #0d47a1;
+        }
+
+        .skills {
+            background: white;
+            text-align: center;
+        }
+
+        .skills h2 {
+            font-size: 2.5rem;
+            color: #0d47a1;
+            margin-bottom: 3rem;
+        }
+
+        .skill-icons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .skill-item {
+            padding: 2rem;
+        }
+
+        .skill-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact {
+            background: linear-gradient(135deg, #0d47a1 0%, #1976d2 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .contact h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-link {
+            color: white;
+            text-decoration: none;
+            padding: 1rem;
+            transition: transform 0.3s;
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+        }
+
+        .contact-link:hover {
+            transform: translateY(-3px);
+            border-color: white;
+        }
+
+        @media (max-width: 768px) {
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .nav-container {
+                padding: 0 1rem;
+            }
+            
+            nav ul {
+                gap: 1rem;
+            }
+            
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .project-links {
+                justify-content: center;
+                flex-direction: column;
+            }
+            
+            .project-link {
+                flex: 1;
+                min-width: 120px;
+                justify-content: center;
+                margin-bottom: 0.5rem;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="bio-container">
-        <h1>SA Dev</h1>
-        <img src="https://avatars.githubusercontent.com/u/47018729?s=400&u=ac0b960ea6d173bf2403ab5e9a465071665e6da4&v=4" alt="my icon" style="width: 200px; height: 200px;">
-        <p>
-            <!-- <a href="[Your LinkedIn]">LinkedIn</a> | -->
-            <a href="https://github.com/Samantha9995" style="margin-right: 20px;">GitHub</a>
-            <a href="https://www.linkedin.com/in/samantha-a-948287176/">LinkedIn</a>
-        </p>
-        <br>
-
-        <p>Hello 👋, I'm Samantha, an Android and Flutter developer with 10 years of experience in mobile application development.</p>
-        <p>I'm passionate about creating practical and intuitive products that enhance users' daily lives.</p>
-
-        <p>My expertise lies in designing robust applications with a focus on UX/UI, adhering to Material Design guidelines.</p>
-        <p>I'm proficient in native Android development using Java, Kotlin, XML, and Android Jetpack components (Compose, Navigation, ViewModel, etc.).</p>
-        <p>I'm also actively exploring Flutter for cross-platform solutions and emerging technologies like Compose Layout and AI to improve development efficiency and app performance.</p>
-
-        <br>
-        <h2>Experience📱</h2>
-        <p>Throughout my career, I've developed a diverse range of applications, including:</p>
-        <ul>
-            <li>E-commerce (maintenance and feature updates)</li>
-            <li>Healthcare (vaccination records, surveys)</li>
-            <li>Transportation (schedules)</li>
-            <li>Data Collection (photo-based recording)</li>
-            <li>Warehouse Management (QR code scanning, inventory lookup)</li>
-            <li>Social Media (image sharing, social networking)</li>
-            <li>Taxi Services (driver/passenger applications, GPS location management)</li>
-        </ul>
-
-        <p>I have experience collaborating with teams to maintain high-performance and stable applications, including two apps with over 500,000+ downloads.</p>
-        <p>I also enjoy independently developing utility apps to practice new technologies and continuously improve my skills.</p>
-
-        <p>With my extensive experience, I'm confident in tackling various projects, including those using older technologies.</p>
-        <p>I'm dedicated to optimizing the user experience and delivering high-quality results.</p>
-
-        <p>I'm eager to contribute to innovative mobile projects and collaborate with talented teams to create outstanding products.</p>
-
-        <p>Feel free to contact me to explore the endless possibilities of mobile development!</p>
-        
-        <br>
-        <h2>Skills🛠</h2>
-        <ul>
-            <li>Languages: Dart, Kotlin, Java</li>
-            <li>Frameworks/Libraries: Flutter, Android SDK, Jetpack, Compose layout, Firebase</li>
-            <li>Tools: Android Studio, VS Code, Git, Gradle</li>
-        </ul>
-
-        <br>
-
-            <div class="project-highlight">
-            <h3>TaskMind🎯 - My New Side Project!<br>[Release Date - 2025/10/16]</h3>
-             <p>
-                <a href="https://play.google.com/store/apps/details?id=sadev.task.mind">Download on Google Play Store</a>
-            </p>
-            <p>I'm excited to share my latest project: TaskMind! 🎉</p>
-            <p>TaskMind is a clean and intuitive task management application<br>built with modern Android technologies to help you easily manage<br>your daily tasks and boost productivity.</p>
-            <p>It's designed for simplicity and ease of use, allowing you to quickly organize your life.</p>
-
-            <img src="images/taskmind.gif" alt="TaskMind Demo GIF" style="margin-top: 40px; margin-bottom: 20px;">
-
-            <p>
-                <strong>Key Features:</strong>
-                <ul>
-                    <li><strong>Task Management:</strong> Add, edit, and delete tasks to stay on top of your progress.</li>
-                    <li><strong>Task Completion:</strong> Easily mark tasks as complete with a simple tap.</li>
-                    <li><strong>Notification Settings:</strong> Set reminders for important tasks and never miss a deadline.</li>
-                    <li><strong>Search Functionality:</strong> Quickly search for tasks to save time.</li>
-                    <li><strong>Unlimited Tasks:</strong> Add unlimited tasks to meet all your needs.</li>
-                    <li><strong>Dark Mode:</strong> Enjoy a comfortable dark mode for improved readability and eye strain reduction.</li>
-                    <li><strong>Multi-Language Support:</strong> Supports both Traditional Chinese and English.</li>
-                </ul>
-            </p>
-            <br>
-            <p>
-                <strong>Technologies Used:</strong>
-                <ul>
-                    <li><strong>Kotlin:</strong> Primary programming language.</li>
-                    <li><strong>Compose Layout:</strong> Modern declarative UI toolkit for building native Android Material Design UIs.</li>
-                    <li><strong>MVVM Architecture:</strong> Clean architecture for separation of concerns, testability, and maintainability.</li>
-                    <li><strong>Room Local Database Library:</strong> For local data storage and management.</li>
-                    <li><strong>Hilt Dependency Injection:</strong> For managing dependencies and improving code testability.</li>
-                    <li><strong>Kotlin Coroutines(Flow):</strong> For asynchronous programming and handling streams of data.</li>
-                </ul>
-            </p>
-            <br>
+    <nav>
+        <div class="nav-container">
+            <div class="logo">SA Dev</div>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
         </div>
+    </nav>
 
-        <br>
-
-        <div class="project-highlight">
-            <h3>Developer Soul🧠<br>[Release Date - 2025/5/20]</h3>
-            <p>                
-                <a href="https://samantha9995.github.io/DeveloperSoul/">Web version</a>
-                <br>
-                <a href="https://github.com/Samantha9995/DeveloperSoul">Open source code</a>
-            </p>
-            <p>I'm excited to share my latest project: Developer Soul! 🎉.</p>
-            <p>A simple yet engaging Flutter quiz application designed <br>to test your knowledge and determine your programmer soul type.</p>
-            <p>Featuring a clean UI with a start screen,<br> question screen, and personalized results, <br>Developer Soul is a fun way to explore coding personalities.</p>
-            <p>This project showcases Flutter's capabilities <br>for creating interactive and cross-platform experiences.</p>
-        
-            <img src="images/developer_soul.gif" alt="developer soul Demo GIF" style="margin-top: 40px; margin-bottom: 20px;">
-            
-            <p>
-                <strong>Features:</strong>
-                <ul>
-                    <li><strong>Interactive Quiz:</strong> Engaging and robust quiz format with multiple-choice questions.</li>
-                    <li><strong>Dynamic UI:</strong> Utilizes Flutter's widgets to create a highly responsive and visually appealing interface.</li>
-                    <li><strong>Personalized Results:</strong> Provides a unique and insightful "programmer soul type" based on the quiz results.</li>
-                    <li><strong>Informative About Page:</strong> Includes a detailed "About the developer" section accessible via a popup menu.</li>
-                    <li><strong>Cross-Platform Compatibility:</strong> Runs seamlessly on Android, iOS, and Web.</li>
-                </ul>
-            </p>
-            <br>
-            <p>
-                <strong>Technologies Used:</strong>
-                <ul>
-                    <li><strong>Flutter:</strong> UI framework.</li>
-                </ul>
-            </p>
-        
-            <br>
-
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1 class="fade-up">Android & Flutter Developer</h1>
+            <p class="subtitle fade-up">Develop efficient and smooth cross-platform mobile applications</p>
+            <a href="#projects" class="cta-button fade-up">View Projects</a>
         </div>
+    </section>
 
-        <br>
-
-        <div class="project-highlight">
-            <h3>Listen First🎶<br>[Release Date - 2025/5/9]</h3>
-            <p>                
-                <a href="https://samantha9995.github.io/ListenFirst/">Web version</a>
-                <br>
-                <a href="https://github.com/Samantha9995/ListenFirst">Open source code</a>
-            </p>
-            <p>I'm excited to announce the recent release of Listen First 🥳.</p>
-            <p>A cross-platform music search and preview app built with Flutter.</p>
-            <p>Search the iTunes API, listen to previews, <br>and enjoy a consistent experience on Android, iOS, and web!</p>
-            <p>It's open source and available on GitHub and<br> you can also check out the web version!</p>
-        
-            <img src="images/listen_first.gif" alt="listenFirst Demo GIF" style="margin-top: 40px; margin-bottom: 20px;">
-            
-            <p>
-                <strong>Features:</strong>
-                <ul>
-                   <li><strong>Search Music:</strong> Allows users to search for songs, artists, and albums directly on the iTunes Store.</li>
-                    <li><strong>Play Previews:</strong> Enables listening to previews of the searched music.</li>
-                    <li><strong>Search History:</strong> Provides a convenient way to view and manage past search queries.</li>
-                    <li><strong>Localization:</strong> Supports multiple languages, including English and Chinese, for a wider user base.</li>
-                    <li><strong>Cross-Platform:</strong> Designed to run seamlessly on Android, iOS, and Web platforms.</li>
-                </ul>
-            </p>
-            <br>
-            <p>
-                <strong>Technologies Used:</strong>
-                <ul>
-                    <li><strong>Flutter:</strong> The primary UI framework for building the application's user interface.</li>
-                    <li><strong>GetX:</strong> Used for state management, dependency injection, and route management, simplifying development.</li>
-                    <li><strong>EasyLocalization:</strong> Facilitates internationalization and localization, enabling support for multiple languages.</li>
-                    <li><strong>Hive:</strong> A lightweight local data storage solution for managing the user's search history.</li>
-                    <li><strong>Just Audio:</strong> A feature-rich library for handling audio playback within the application.</li>
-                    <li><strong>Logger:</strong> Provides comprehensive logging capabilities for debugging and monitoring application behavior.</li>
-                </ul>
-            </p>
-        
-            <br>
-
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-grid">
+                <div class="fade-up">
+                    <h2>About</h2>
+                    <p>Hi, I'm Samantha. I focus on Android native development and Flutter cross-platform solutions, and I love creating intuitive and efficient user experiences.</p>
+                    <p>With 8+ years of experience in mobile application development, I'm skilled in the entire development process, from requirements analysis to release.</p>
+                    <div class="tech-stack">
+                        <span class="tech-tag">Kotlin</span>
+                        <span class="tech-tag">Dart</span>
+                        <span class="tech-tag">Flutter</span>
+                        <span class="tech-tag">Jetpack Compose</span>
+                        <span class="tech-tag">Firebase</span>
+                        <span class="tech-tag">MVVM</span>
+                        <span class="tech-tag">RESTful API</span>
+                    </div>
+                </div>
+                <div class="fade-up">
+                    <div style="text-align: center;">
+                        <img src="https://avatars.githubusercontent.com/u/47018729?s=400&u=ac0b960ea6d173bf2403ab5e9a465071665e6da4&v=4" 
+                             alt="個人照片" 
+                             style="width: 100%; border-radius: 12px; max-width: 400px;">
+                    </div>
+                </div>
+            </div>
         </div>
+    </section>
 
-    </div>
+    <section id="projects" class="projects">
+        <div class="container">
+            <h2 class="fade-up" style="text-align: center; color: #0d47a1;">Projects</h2>
+            <div class="projects-grid">
+                <div class="project-card fade-up">
+                    <div class="project-image">
+                        <img src="images/taskmind-icon.png" 
+                             alt="task-mind" 
+                             style="width: 100%; border-radius: 12px; max-width: 400px;">
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">TaskMind</h3>
+                        <p>TaskMind is a clean and intuitive task management application and built with modern Android technologies to help you easily manage your daily tasks and boost productivity.</p>
+                        <br>
+                        <span class="tech-tag">Android</span>
+                        <span class="tech-tag">Compose Layout</span>
+                        <span class="tech-tag">Coroutines Flow</span>
+                        <span class="tech-tag">MVVM</span>
+                        <span class="tech-tag">Room</span>
 
+                    <div class="project-links">
+                            <a href="https://play.google.com/store/apps/details?id=sadev.task.mind" 
+                            class="project-link play-store" 
+                            target="_blank">
+                                📱 Google Play Store
+                            </a>
+                            <a href="images/taskmind.gif" 
+                            class="project-link demo" 
+                            target="_blank">
+                                🎬 Demo
+                            </a>
+                     </div>
+                    </div>
+
+                    
+
+                </div>
+                <div class="project-card fade-up" style="transition-delay: 0.1s;">
+                    <div class="project-image">
+                        <img src="images/developer-soul-icon.png" 
+                             alt="developer-soul" 
+                             style="width: 100%; border-radius: 12px; max-width: 400px;">
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Developer Soul</h3>
+                        <p>A simple yet engaging Flutter quiz application designed to test your knowledge and determine your programmer soul type.</p>
+                        <br>
+                        <span class="tech-tag">Flutter</span>
+
+                    <div class="project-links">
+                           <a href="https://samantha9995.github.io/DeveloperSoul/" 
+                            class="project-link website" 
+                            target="_blank" 
+                            rel="noopener noreferrer">
+                                🌐 Website
+                            </a>
+                            <a href="https://github.com/Samantha9995/DeveloperSoul" 
+                            class="project-link github" 
+                            target="_blank">
+                                🐙 GitHub
+                            </a>
+                            <a href="images/developer_soul.gif" 
+                            class="project-link demo" 
+                            target="_blank">
+                                🎬 Demo
+                            </a>
+                     </div>
+
+                    </div>
+                </div>
+                <div class="project-card fade-up" style="transition-delay: 0.2s;">
+                    <div class="project-image">
+                        <img src="images/listen-first-icon.png" 
+                             alt="listen-first" 
+                             style="width: 100%; border-radius: 12px; max-width: 400px;">
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Listen First</h3>
+                        <p>A cross-platform music search and preview app built with Flutter.</p>
+                        <br>
+                        <span class="tech-tag">Flutter</span>
+                        <span class="tech-tag">GetX</span>
+                        <span class="tech-tag">EasyLocalization</span>
+                        <span class="tech-tag">Hive</span>
+                        <span class="tech-tag">Just Audio</span>
+                        <span class="tech-tag">Logger</span>
+
+                    <div class="project-links">
+                            <a href="https://samantha9995.github.io/ListenFirst/" 
+                            class="project-link website" 
+                            target="_blank" 
+                            rel="noopener noreferrer">
+                                🌐 Website
+                            </a>
+                            <a href="https://github.com/Samantha9995/ListenFirst" 
+                            class="project-link github" 
+                            target="_blank">
+                                🐙 GitHub
+                            </a>
+                            <a href="images/listen_first.gif" 
+                            class="project-link demo" 
+                            target="_blank">
+                                🎬 Demo
+                            </a>
+                     </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" class="skills">
+        <div class="container">
+            <h2>Skills</h2>
+            <div class="skill-icons">
+                <div class="skill-item fade-up">
+                    <div class="skill-icon">🅰️</div>
+                    <h4>Android</h4>
+                    <p>Kotlin, Java, Jetpack, Hilt, Compose Layout, Coroutine</p>
+                </div>
+                <div class="skill-item fade-up" style="transition-delay: 0.1s;">
+                    <div class="skill-icon">🦋</div>
+                    <h4>Flutter</h4>
+                    <p>Dart, Animations</p>
+                </div>
+                <div class="skill-item fade-up" style="transition-delay: 0.2s;">
+                    <div class="skill-icon">🔥</div>
+                    <h4>Firebase</h4>
+                    <p>Google Analytics, Crashlytics</p>
+                </div>
+                <div class="skill-item fade-up" style="transition-delay: 0.3s;">
+                    <div class="skill-icon">⚙️</div>
+                    <h4>Architecture</h4>
+                    <p>MVC, MVVM</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="fade-up">Contact</h2>
+            <p class="fade-up">Have an interesting project or technical question? Feel free to contact me!</p>
+            <p class="fade-up">For more details on my work experience, please visit my LinkedIn profile.</p>
+            <div class="contact-links">
+                <!-- <a href="mailto:your.email@example.com" class="contact-link fade-up">📧 Email</a> -->
+                <a href="https://www.linkedin.com/in/samantha-a-948287176/" class="contact-link fade-up" target="_blank" style="transition-delay: 0.1s;">💼 LinkedIn</a>
+                <a href="https://github.com/Samantha9995" class="contact-link fade-up" target="_blank" style="transition-delay: 0.2s;">🐙 GitHub</a>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        window.addEventListener('scroll', () => {
+            document.querySelector('nav').classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+        document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', e => {
+                e.preventDefault();
+                document.querySelector(anchor.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
 </body>
 </html>
