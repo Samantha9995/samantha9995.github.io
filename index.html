@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google Tag Manager -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-W4LRVLLEK5"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -62,7 +61,24 @@
         .project-grid { display: flex; flex-direction: column; gap: 10rem; margin-top: 6rem; }
         
         .project-card h3 { font-size: 2.2rem; margin-bottom: 1.5rem; font-weight: 700; letter-spacing: -0.02em; }
-        .project-desc { font-size: 1.15rem; color: var(--secondary); margin-bottom: 2rem; max-width: 850px; }
+        .project-desc { font-size: 1.15rem; color: var(--secondary); margin-bottom: 1.5rem; max-width: 850px; }
+        
+        /* Project Links Styling */
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 600;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s ease;
+            padding-bottom: 2px;
+        }
+        .project-link:hover {
+            border-bottom-color: var(--accent);
+            opacity: 0.85;
+        }
         
         .badge {
             display: inline-flex;
@@ -89,7 +105,7 @@
             .cap-grid { grid-template-columns: 1fr; gap: 4rem; }
         }
     </style>
-    <link href="[https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap](https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap)" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -119,6 +135,7 @@
                     <span class="badge">AUTOMATION</span>
                     <h3>TaskMind: Voice-to-Action Implementation</h3>
                     <p class="project-desc">A tool developed to eliminate the friction of manual task entry. By leveraging a voice-input module processed through AI, the application parses natural language to automatically populate task data.</p>
+                    <a href="https://play.google.com/store/apps/details?id=sadev.task.mind&hl=zh_HK" class="project-link" target="_blank" rel="noopener">View on Google Play &rarr;</a>
                 </div>
 
                 <div class="project-card">
@@ -131,6 +148,7 @@
                     <span class="badge">MOBILE ARCHITECTURE</span>
                     <h3>ListenFirst: Streaming Engine</h3>
                     <p class="project-desc">A cross-platform audio engine built with Flutter. The solution prioritizes stable background streaming and efficient real-time data synchronization across diverse mobile environments.</p>
+                    <a href="https://samantha9995.github.io/ListenFirst/" class="project-link" target="_blank" rel="noopener">Launch Web Demo &rarr;</a>
                 </div>
 
             </div>
